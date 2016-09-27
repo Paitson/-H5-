@@ -1,0 +1,109 @@
+<script type="text/javascript">
+			var x = 100;
+			var y = 0;
+			var num = 0;
+			var gImagegz;
+			var gCon;
+			var gCurrentValue;
+			var gCurrentTime;
+
+			var gisLeft;
+
+
+			function init() {
+
+				//alert("init");
+				var temDate=new Date();
+				gCon = document.getElementById("Myline");
+
+gCurrentTime =temDate.getTime();
+				initImage();
+			
+
+			}
+
+			function initImage() {
+
+				gImagegz = new Image();
+				gImagegz.src = "static/img/endpage.jpg";
+				gImagegz.onload = GameBegin();
+
+				//alert("initiamge");
+			}
+
+			function GameBegin() {
+				alert("GameBegin");
+				setInterval(OnFrame, 30);
+
+				gCurrentValue = 0;
+
+				gisLeft = true;
+			}
+
+			function OnFrame() {
+
+				//alert("OnFrame");
+				GameUpdate();
+				GameRender();
+			}
+
+			function GameUpdate() {
+				//alert("GameUpdate");
+
+			}
+
+			function GameRender() {
+				var content = gCon.getContext('2d');
+				content.clearRect(0, 0, 1000, 600);
+				//content.drawImage(gImagegz,50,50);
+
+				var xpos = gCon.width / 2;
+				var ypos = gCon.height / 2;
+				//content.clear();
+
+			var temDate=new Date();
+			var temTime = temDate.getTime();
+			
+			var eltime = temTime-gCurrentTime;
+			
+			gCurrentTime =temTime;
+			
+	         eltime=eltime/1000.0;
+				if(gisLeft == true) {
+					gCurrentValue = gCurrentValue + eltime;
+
+				} else {
+
+					gCurrentValue = gCurrentValue - eltime;
+				}
+				
+				
+
+				if(gCurrentValue > 1) {
+					gCurrentValue = 1;  
+					gisLeft = false;
+				} else if(gCurrentValue < -1)
+				{
+					gisLeft = true;
+					gCurrentValue = -1;
+				}
+			
+			
+	
+		
+			
+			var temCurrent = 30 * gCurrentValue;
+
+			content.save();
+			content.translate(xpos, ypos);
+			content.rotate(temCurrent * Math.PI / 180); //旋转10度
+			content.translate(-xpos, -ypos);
+
+			content.drawImage(gImagegz, xpos - gImagegz.width / 2, ypos - gImagegz.height / 2);
+
+			content.restore();
+
+			}
+
+
+		</script>
